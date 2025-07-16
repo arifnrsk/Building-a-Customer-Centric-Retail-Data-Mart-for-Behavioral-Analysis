@@ -22,7 +22,7 @@ This data pipeline is built using a modern set of technologies running in an iso
 
 ![Architecture Diagram](images/Architecture.png)
 
-The workflow in summary: **Generated Daily CSVs → Airflow → Spark (Transformation: MBA & RFM) → PostgreSQL (Data Mart) → Metabase (Dashboard)**
+The workflow in summary: **Daily Batch CSVs → Airflow (Orchestration) → Spark (MBA & RFM Analytics) → PostgreSQL (Data Mart) → Metabase (BI Dashboard)**
 
 ## 3. Data Model: The Retail Data Mart
 
@@ -53,10 +53,16 @@ The final output of this pipeline is a data mart in PostgreSQL, consisting of tw
     ```
 
 3.  **Generate The Data**
-    Run the script to generate the daily transaction data. This will create a new `generated_data/` folder containing the CSV files.
+    Run the script to generate the daily transaction data. This will create a new `generated_data/` folder containing daily batch CSV files (`transaksi_YYYY-MM-DD.csv`).
     ```bash
     python generate_data.py
     ```
+    
+    **Note**: The pipeline is designed for daily batch processing, where each CSV file represents one day of retail transactions. This approach aligns with typical retail business cycles where:
+    - Daily sales reports are generated at end-of-day
+    - Marketing teams need overnight analytics for next-day campaigns  
+    - Customer behavior patterns are analyzed on a daily basis
+    - Resource-efficient processing during off-peak hours
 
 4.  **Configure Airflow Secret Key**
     Airflow requires a consistent `secret_key`. Run this Python command in your terminal to generate a new key:
