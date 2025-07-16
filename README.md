@@ -123,7 +123,26 @@ The final output of this pipeline is a data mart in PostgreSQL, consisting of tw
     You can also access these services for monitoring and debugging:
     * **Spark Master UI**: `http://localhost:8081`
 
-## 5. Project Results & Presentation
+## 5. Deep Dive: Technical Documentation
+
+This README provides the essential setup and usage instructions. For technical details, system architecture, and implementation specifics, please refer to the detailed technical documentation:
+
+**[TECHNICAL DOCUMENTATION](DOCUMENTATION.md)**
+
+**What awaits you:**
+- **System Architecture**: Deep-dive into containerized microservices design
+- **Data Pipeline Flow**: Step-by-step ETL process with visual diagrams  
+- **Analytics Methodology**: Mathematical foundations of MBA & RFM algorithms
+- **Database Schema**: Complete SQL schemas with optimization strategies
+- **Performance Tuning**: Spark optimization and scaling techniques
+- **Development Guide**: Debug procedures, testing strategies, best practices
+- **Security & Monitoring**: Production-ready security and logging implementations
+
+*Perfect for portfolio deep-dives, or expanding this project further!*
+
+---
+
+## 6. Project Results & Presentation
 
 For a comprehensive overview of the project outcomes, analytical insights, and business impact, please refer to the detailed presentation:
 
@@ -136,7 +155,7 @@ This presentation covers:
 - Business recommendations and actionable insights
 - Technical architecture deep dive
 
-## 6. How to Verify the Result
+## 7. How to Verify the Result
 
 To ensure the data has been processed and stored correctly, you can check the PostgreSQL database directly.
 
@@ -159,7 +178,7 @@ To ensure the data has been processed and stored correctly, you can check the Po
     \q
     ```
 
-## 7. Troubleshooting Common Issues
+## 8. Troubleshooting Common Issues
 
 ### Metabase Connection Problems
 - **Issue**: "Connection failed" when setting up database
@@ -177,7 +196,7 @@ To ensure the data has been processed and stored correctly, you can check the Po
 - **Issue**: Services fail to start due to port conflicts
 - **Solution**: Make sure ports 8080, 8081, 5432, and 3000 are not being used by other applications. You can modify ports in `docker-compose.yml` if needed.
 
-## 8. Stopping the Environment
+## 9. Stopping the Environment
 
 To stop and remove all containers, run the command:
 ```bash
