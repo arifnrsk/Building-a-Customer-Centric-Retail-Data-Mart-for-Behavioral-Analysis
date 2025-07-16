@@ -123,7 +123,7 @@ The final output of this pipeline is a data mart in PostgreSQL, consisting of tw
     You can also access these services for monitoring and debugging:
     * **Spark Master UI**: `http://localhost:8081`
 
-## 5. Deep Dive: Technical Documentation
+## 5. Deep Dive Technical Documentation
 
 This README provides the essential setup and usage instructions. For technical details, system architecture, and implementation specifics, please refer to the detailed technical documentation:
 
