@@ -20,7 +20,7 @@ This data pipeline is built using a modern set of technologies running in an iso
 
 #### Architecture Diagram
 
-![Architecture Diagram](https://drive.google.com/file/d/1Es1w_u0jPPd-LZL-Vnc_ZU-q6fS9xcPv/view?usp=sharing)
+![Architecture Diagram](images/Architecture.png)
 
 The workflow in summary: **Generated Daily CSVs → Airflow → Spark (Transformation: MBA & RFM) → PostgreSQL (Data Mart) → Metabase (Dashboard)**
 
@@ -112,10 +112,10 @@ The final output of this pipeline is a data mart in PostgreSQL, consisting of tw
     After successfully connecting to the database, you can create visualizations similar to these examples that demonstrate the project goals:
     
     - **Market Basket Analysis Dashboard**: Shows product association rules, confidence, and lift metrics for optimizing product placement and cross-selling strategies
-      ![MBA Dashboard Example](https://drive.google.com/file/d/1BAPs7zYPouusUtwMShceSLYTG3g8FEVC/view?usp=sharing)
+      ![MBA Dashboard Example](images/MBA%20Metabase%20Example%20Result.png)
     
     - **RFM Customer Segmentation Dashboard**: Displays customer segments (Champions, At Risk, etc.) with RFM scores for targeted marketing campaigns
-      ![RFM Dashboard Example](https://drive.google.com/file/d/1P4E3TfkUv-S7Q55-JIPj8H_l5un7TOke/view?usp=drive_link)
+      ![RFM Dashboard Example](images/RFM%20Metabase%20Example%20Result.png)
     
     **Note**: These are reference examples. You can create your own visualizations using different chart types (bar charts, pie charts, heatmaps, etc.) and build custom dashboards based on your specific analytical needs and business requirements.
 
