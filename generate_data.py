@@ -21,22 +21,21 @@ products = [
 anomalies = [
     {'StockCode': 'BIAYA-ADMIN', 'Description': 'Biaya Admin', 'Price': 2500},
     {'StockCode': 'ONGKIR', 'Description': 'Biaya Pengiriman', 'Price': 15000},
-    {'StockCode': 'DISCOUNT', 'Description': 'Potongan Harga', 'Price': 0}, # Price is 0 as it's a discount code
+    {'StockCode': 'DISCOUNT', 'Description': 'Potongan Harga', 'Price': 0},
 ]
 
 def generate_transactions(num_rows, start_date_str):
-    """Main function to generate raw transaction data."""
+    """Main function to generate raw transaction data with injected patterns."""
     
     all_transactions = []
     current_date = datetime.strptime(start_date_str, '%Y-%m-%d')
     invoice_num = 1
     
     while len(all_transactions) < num_rows:
-        num_items_in_basket = random.randint(1, 5)
-        
         # 1% chance of being a non-product anomaly transaction
         if random.random() < 0.01: 
             item = random.choice(anomalies)
+            # ... (anomaly logic remains the same)
             item['Invoice'] = f"ANM-{current_date.strftime('%Y%m%d')}-{invoice_num}"
             item['Quantity'] = 1
             item['InvoiceDate'] = current_date
@@ -47,36 +46,48 @@ def generate_transactions(num_rows, start_date_str):
             customer_id = random.randint(12000, 18000)
             current_invoice_id = f"INV-{current_date.strftime('%Y%m%d')}-{invoice_num}"
 
-            for _ in range(num_items_in_basket):
-                item = random.choice(products).copy()
-                
-                # Quantity is always positive now
-                item['Quantity'] = random.randint(1, 5)
+            # --- PATTERN INJECTION LOGIC STARTS HERE ---
+            
+            num_base_items = random.randint(1, 3)
+            basket_codes = set(random.sample([p['StockCode'] for p in products], k=num_base_items))
 
-                # 2% chance of having a zero price
-                if random.random() < 0.02: 
-                    item['Price'] = 0
+            # Rule 1: If Indomie is in basket, 70% chance to add Egg
+            if 'IND-001' in basket_codes and random.random() < 0.7:
+                basket_codes.add('IND-002')
+            
+            # Rule 2: If Sunlight is in basket, 60% chance to add Sponge
+            if 'HHLD-001' in basket_codes and random.random() < 0.6:
+                basket_codes.add('HHLD-002')
+            
+            # Rule 3: If Teh Botol is in basket, 50% chance to add Aqua
+            if 'BEV-001' in basket_codes and random.random() < 0.5:
+                basket_codes.add('BEV-002')
 
-                item['Invoice'] = current_invoice_id
-                item['InvoiceDate'] = current_date
-                
-                # 10% chance of having a null Customer ID
-                if random.random() < 0.1:
-                    item['Customer ID'] = None
-                else:
-                    item['Customer ID'] = customer_id
+            # --- PATTERN INJECTION LOGIC ENDS HERE ---
+
+            for code in basket_codes:
+                product_info = next((p for p in products if p['StockCode'] == code), None)
+                if product_info:
+                    item = product_info.copy()
                     
-                all_transactions.append(item)
-        
+                    item['Quantity'] = random.randint(1, 5)
+                    if random.random() < 0.02: item['Price'] = 0
+                    item['Invoice'] = current_invoice_id
+                    item['InvoiceDate'] = current_date
+                    if random.random() < 0.1: item['Customer ID'] = None
+                    else: item['Customer ID'] = customer_id
+                        
+                    all_transactions.append(item)
+
         invoice_num += 1
-        # Advance the day every 500 invoices to create daily data
         if invoice_num % 500 == 0: 
             current_date += timedelta(days=1)
 
     return pd.DataFrame(all_transactions)
 
 if __name__ == "__main__":
-    print("Generating raw data...")
+    # ... (this part remains the same)
+    print("Generating raw data with injected patterns...")
     TOTAL_ROWS = 1000000
     START_DATE = '2024-01-01'
     

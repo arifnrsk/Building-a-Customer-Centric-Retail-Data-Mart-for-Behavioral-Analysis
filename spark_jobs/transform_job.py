@@ -44,7 +44,7 @@ def run_spark_job():
     baskets_df = cleaned_df.groupBy("Invoice").agg(collect_set("StockCode").alias("items"))
     baskets_df = baskets_df.filter(size(col("items")) >= 2)
     
-    fpGrowth = FPGrowth(itemsCol="items", minSupport=0.01, minConfidence=0.1)
+    fpGrowth = FPGrowth(itemsCol="items", minSupport=0.005, minConfidence=0.05)
     model = fpGrowth.fit(baskets_df)
     association_rules = model.associationRules
 
@@ -83,9 +83,10 @@ def run_spark_job():
 
     rfm_final_df = rfm_with_scores.withColumn("customer_segment",
         when((col("r_score") >= 4) & (col("f_score") >= 4), "Champions")
+        .when((col("r_score") >= 4) & (col("f_score") >= 2), "Potential Loyalists")
         .when((col("r_score") >= 3) & (col("f_score") >= 3), "Loyal Customers")
-        .when((col("r_score") >= 4) & (col("f_score") <= 2), "New Customers")
         .when((col("r_score") <= 2) & (col("f_score") >= 3), "At Risk")
+        .when((col("r_score") >= 3) & (col("f_score") <= 2), "New Customers")
         .otherwise("Needs Attention")
     )
     
